@@ -3,7 +3,7 @@
 import { useState, memo } from "react";
 import { FaWhatsapp, FaPhone } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { MdContactSupport } from "react-icons/md";
+import { IoCall } from "react-icons/io5";
 interface StickyContactProps {
     phoneNumber?: string;
     whatsappNumber?: string;
@@ -23,7 +23,7 @@ const StickyContact = memo<StickyContactProps>(({
 
     const handleWhatsAppClick = () => {
         try {
-            window.open(`https://wa.me/8700667107?text=I'm%20interested%20in%20your%20service%20for%20homecleaning`, "_blank");
+            window.open(`https://wa.me/8851598617?text=I'm%20interested%20in%20your%20service%20for%20homecleaning`, "_blank");
         } catch (error) {
             console.error("Error opening WhatsApp:", error);
         }
@@ -71,7 +71,7 @@ const StickyContact = memo<StickyContactProps>(({
                 {isExpanded ? (
                     <IoMdClose className="text-2xl" />
                 ) : (
-                    <MdContactSupport className="text-2xl" />
+                    <IoCall className="text-2xl" />
                 )}
             </button>
         </div>

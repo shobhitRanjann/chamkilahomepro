@@ -12,6 +12,7 @@ type SheetForm = {
   betweentimeone: string;
   betweentimetwo: string;
   extracomment: string;
+  username: string;
 };
 
 export async function POST(req: Request) {
@@ -41,12 +42,13 @@ export async function POST(req: Request) {
 
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'A1:H1',
+      range: 'A1:J1',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [
           [
             body.servicetype,
+            body.username,
             body.email,
             body.phone,
             body.address,

@@ -4,7 +4,6 @@ import Testimonial from "./testimonialsone/testimonial";
 import Reviews from "./reviews/reviews"
 import StickyContact from "./stickycontact/stickycontact";
 import { AlertProvider } from "./contexts/AlertContext";
-import PricingCard from "./pricing/pricing";
 
 export default function Home() {
   return (
@@ -15,7 +14,7 @@ export default function Home() {
    <Cards/>
    </AlertProvider>
    <Testimonial/>
-   <PricingCard/>
+   {/* <PricingCard/> */}
    <Reviews/>
    </>
   );

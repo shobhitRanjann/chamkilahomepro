@@ -52,7 +52,7 @@ export default function Navbar() {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
         <a onClick={()=>handleClick("bookservice")} className="text-sm/6 font-semibold text-gray-900 cursor-pointer">
-            Book Now
+            Our Services
           </a>
 
           <a onClick={()=>handleClick("aboutus")} className="text-sm/6 font-semibold text-gray-900 cursor-pointer">
@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
         <img width="16" height="16" src="/icons-call.png" alt="ringer-volume"/>
           <a href="#" className="text-sm/6 font-semibold text-green-600">
-            &nbsp; Call Now <span aria-hidden="true">+91-8802282721 / +91-8700667107</span>
+            &nbsp; Call Now <span aria-hidden="true">+91-8851598617</span>
           </a>
         </div>
       </nav>
@@ -100,7 +100,7 @@ export default function Navbar() {
                   onClick={()=>handlemobileview('bookservice')}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
-                  Book Now
+                  Our Services
                 </a>
                 <a
                    onClick={()=>handlemobileview('aboutus')}
@@ -123,7 +123,7 @@ export default function Navbar() {
               </div>
               <div className="py-6">
               <a href="#" className="text-sm/6 font-semibold text-green-600">
-            &nbsp; Call Now <span aria-hidden="true">+91-8802282721 / +91-8700667107</span>
+            &nbsp; Call Now <span aria-hidden="true">+91-8851598617 / +91-8700667107</span>
           </a>
               </div>
             </div>

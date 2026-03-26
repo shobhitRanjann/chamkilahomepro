@@ -19,23 +19,25 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
     const [betweentimetwo, setEndTime] = useState("00:00 AM");
     const [phone, setPhonenumber] = useState('+91');
     const [isLoading, setIsLoading] = useState(false)
-    const [email,setEmail] = useState('');
-    const [serviceDate,setServiceDate] = useState('');
+    const [email, setEmail] = useState('');
+    const [serviceDate, setServiceDate] = useState('');
     const [extracomment, setExtracomment] = useState('');
     const [address, setAddress] = useState('');
-    const [addressbool,setAddressbool] = useState(true);
+    const [addressbool, setAddressbool] = useState(true);
+    const [username, setUsername]=useState('');
 
-    const handleSubmit = async (e: React.FormEvent)=>{
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-      setIsLoading(true);
 
-      setTimeout(() => {
-        setIsLoading(false);
-        onClose();
-             }, 7000)
-      
-      e.preventDefault();
-        const form={
+        setIsLoading(true);
+
+        setTimeout(() => {
+            setIsLoading(false);
+            onClose();
+        }, 7000)
+
+        e.preventDefault();
+        const form = {
             servicetype,
             email,
             phone,
@@ -43,32 +45,33 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
             serviceDate,
             betweentimeone,
             betweentimetwo,
-            extracomment
+            extracomment,
+            username
         }
         const response = await fetch("/api/submit", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(form),
-          });
+        });
 
-          if(!response.ok){
+        if (!response.ok) {
             alert('Please try after sometime!!');
-          }
-          alert('Your request has been sent successfully!...');
+        }
+        alert('Your request has been sent successfully!...');
 
-          setEmail('');
-          setPhonenumber('+91');
-          setAddress('');
-          setServiceDate('');
-          setExtracomment('');
+        setEmail('');
+        setPhonenumber('+91');
+        setAddress('');
+        setServiceDate('');
+        setExtracomment('');
     }
-    const checkAddress=(e:string)=>{
-        if(e.length>10){
+    const checkAddress = (e: string) => {
+        if (e.length > 10) {
             setAddressbool(false);
         }
-        else{
+        else {
             setAddressbool(true)
         }
         setAddress(e);
@@ -101,26 +104,49 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
                                 <input type="hidden" name="email" value={email} />
                             </div>
                             <div>
+                                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Your Full Name</label>
+                                <input type="string" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="your full-name" required />
+                            </div>
+                            <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-semibold text-gray-900 dark:text-black">Your email</label>
-                                <input type="email" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="name@company.com" required />
+                                <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="name@company.com" required />
                             </div>
                             <div>
                                 <input type="hidden" name="phone" value={phone} />
                             </div>
                             <div>
-                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Your Phone No</label>
-                                <input type="string" name="phone" id="phone" value={phone} onChange={(e) => setPhonenumber(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="9999999999" required />
+                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
+                                    Your Phone No
+                                </label>
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    id="phone"
+                                    value={phone}
+                                    onChange={(e) => {
+                                        const input = e.target.value;
+                                        if (/^\+91\d{0,10}$/.test(input)) {
+                                            setPhonenumber(input);
+                                        }
+                                    }}
+                                    pattern="^\+91[0-9][0-9]{9}$"
+                                    title="Phone number must be in the format +91XXXXXXXXXX (10 digits)"
+                                    maxLength={13}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900"
+                                    placeholder="+919999999999"
+                                    required
+                                />
                             </div>
                             <div>
-                                <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Your Address<p className="text-red-500">{addressbool?'Enter full address':''}</p></label>
-                                <input type="string" name="address" id="address" value={address} onChange={(e)=>checkAddress(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="your location" required />
+                                <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Your Address<p className="text-red-500">{addressbool ? 'Enter full address' : ''}</p></label>
+                                <input type="string" name="address" id="address" value={address} onChange={(e) => checkAddress(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="your location" required />
                             </div>
                             <div>
                                 <input type="hidden" name="serviceDate" value={serviceDate} />
                             </div>
                             <div>
                                 <label htmlFor="serviceDat" className="block mb-2 text-sm font-medium text-black dark:text-black">Service Date</label>
-                                <input type="date" name="serviceDat" id="serviceDat" value={serviceDate} onChange={(e)=>setServiceDate(e.target.value)} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" />
+                                <input type="date" name="serviceDat" id="serviceDat" value={serviceDate} onChange={(e) => setServiceDate(e.target.value)} className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" />
                             </div>
                             <div>
                                 <label htmlFor="betweentimeone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Service Time Slot</label>
@@ -142,7 +168,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
                             </div>
                             <div>
                                 <label htmlFor="extracomment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Additional Message:</label>
-                                <textarea name="extracomment" id="extracomment" value={extracomment} onChange={(e)=>setExtracomment(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="your location" required />
+                                <textarea name="extracomment" id="extracomment" value={extracomment} onChange={(e) => setExtracomment(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-900" placeholder="your location" required />
                             </div>
                             {/* <SubmitButton /> */}
                             <button
@@ -172,7 +198,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
                                 )}
                             </button>
                             <div className="text-sm font-medium text-gray-700 dark:text-gray-700">
-                                Or Call us directly!<a href="#" className="text-blue-700 hover:underline dark:text-blue-500">+918802282721</a>
+                                Or Call us directly!<a href="#" className="text-blue-700 hover:underline dark:text-blue-500">+918851598617</a>
                             </div>
                         </form>
                         <button onClick={onClose} className="mt-4 bg-red-500 text-white w-full px-4 py-2 rounded hover:bg-gray-400">
@@ -185,4 +211,3 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, servicetype, children })
     )
 }
 export default Modal
-
